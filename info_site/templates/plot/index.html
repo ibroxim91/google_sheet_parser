@@ -1,0 +1,33 @@
+{% load static %}
+{% block content %}
+  <div id="container" style="width: 75%;">
+    <canvas id="line-chart"></canvas>
+  </div>
+
+  <script src="{% static 'plot/Chart.min.js' %}"></script>
+  <script>
+
+    var config = {
+      type: 'line',
+      data: {
+        datasets: [{
+          data: {{ prices|safe }},
+          borderColor: 'rgb(75, 192, 192)',
+          label: 'Data',
+          tension: 0.1
+        }],
+        labels: {{ dates|safe }}
+      },
+      options: {
+        responsive: true
+      }
+    };
+
+    window.onload = function() {
+      var ctx = document.getElementById('line-chart').getContext('2d');
+      window.myChart = new Chart(ctx, config);
+    };
+
+  </script>
+
+{% endblock %}
